@@ -2,32 +2,13 @@
   ansible.builtin.dnf:
     name: '@nodejs:20'
     state: present
-- name: add user roboshop
-  ansible.builtin.user:
-    user: roboshop
-- name: remove app directory
-  ansible.builtin.file:
-    path: /app
-    state: absent
-- name: create app directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
-- name: downlaod nd extract the file
-  ansible.builtin.unarchive:
-    src: https://roboshop-artifacts.s3.amazonaws.com/{{ component }}-v3.zip
-    dest: /app
-    remote_src: yes
+
+- name: load app_pre_reqs
+  ansible.builtin.import_tasks: app_pre_reqs.yml
+
 - name: install packages
   community.general.npm:
     path: /app
-- name: copy {{ component }} service file
-  ansible.builtin.copy:
-    src: "{{ component }}.service"
-    dest: /etc/systemd/system/{{ component }}.service
-- name: retstart nd enable the {{ component }} service
-  ansible.builtin.systemd_service:
-    state: restarted
-    name: "{{ component }}"
-    enabled: true
-    daemon_reload: true
+
+- name: import systemd tasks
+  ansible.builtin.import_tasks: systemd.yml

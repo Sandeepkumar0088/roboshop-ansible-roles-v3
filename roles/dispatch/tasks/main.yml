@@ -2,21 +2,8 @@
   ansible.builtin.dnf:
     name: golang
     state: present
-- name: add roboshop user
-  ansible.builtin.user:
-    name: roboshop
-- name: remove app directory
-  ansible.builtin.file:
-    path: /app
-    state: absent
-- name: create app directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
-- name: copy dispatch service file
-  ansible.builtin.copy:
-    src: dispatch.service
-    dest: /etc/systemd/system/dispatch.service
+- name: load app_pre_reqs
+  ansible.builtin.import_tasks: app_pre_reqs.yml
 - name: download nd extract the file
   ansible.builtin.unarchive:
     src: https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
