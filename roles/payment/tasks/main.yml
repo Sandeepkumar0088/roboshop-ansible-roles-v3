@@ -7,7 +7,9 @@
     state: present
 
 - name: load app_pre_reqs
-  ansible.builtin.import_tasks: app_pre_reqs.yml
+  ansible.builtin.import_tasks:
+    name: common
+    tasks_from: app_pre_reqs.yml
 
 - name: Install specified python requirements
   ansible.builtin.pip:
