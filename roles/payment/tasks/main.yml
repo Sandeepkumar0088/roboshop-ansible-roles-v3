@@ -7,7 +7,7 @@
     state: present
 
 - name: load app_pre_reqs
-  ansible.builtin.import_tasks:
+  ansible.builtin.import_role:
     name: common
     tasks_from: app_pre_reqs.yml
 
